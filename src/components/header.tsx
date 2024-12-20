@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from '../../components/ui/dropdown-menu';
 
-const Header = () => {
+const Header: React.FC = () => {
   const { data: session, status } = useSession();
 
   const handleSignOut = () => {
