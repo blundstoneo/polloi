@@ -1,63 +1,59 @@
-import { UserCircle } from "lucide-react";
-import { signOut } from "next-auth/react";
-import { useState } from "react";
+import React from 'react';
+import { Menu, Settings, LogOut, User } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-interface HeaderProps {
-  user?: {
-    name?: string | null;
-    email?: string | null;
-    image?: string | null;
+const Header = () => {
+  // We'll need to handle user session state in your app's context
+  const user = {
+    name: "User Name",
+    email: "user@example.com",
+    image: null
   };
-}
 
-export default function Header({ user }: HeaderProps) {
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const handleSignOut = () => {
+    // Implement your sign out logic here
+    console.log('Sign out clicked');
+  };
 
   return (
-    <header className="bg-white shadow">
-      <div className="mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 justify-between">
-          <div className="flex-shrink-0 flex items-center">
-            <h1 className="text-xl font-bold">Polloi</h1>
-          </div>
-          
-          <div className="flex items-center">
-            <div className="relative ml-3">
-              <div>
-                <button
-                  onClick={() => setIsProfileOpen(!isProfileOpen)}
-                  className="flex items-center max-w-xs rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  {user?.image ? (
-                    <img
-                      className="h-8 w-8 rounded-full"
-                      src={user.image}
-                      alt={user.name ?? ""}
-                    />
-                  ) : (
-                    <UserCircle className="h-8 w-8" />
-                  )}
-                </button>
-              </div>
-              
-              {isProfileOpen && (
-                <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5">
-                  <div className="px-4 py-2">
-                    <p className="text-sm">{user?.name}</p>
-                    <p className="text-sm text-gray-500">{user?.email}</p>
-                  </div>
-                  <button
-                    onClick={() => void signOut()}
-                    className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    Sign out
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
+    <header className="w-full h-16 border-b border-gray-200 bg-white">
+      <div className="h-full px-4 flex items-center justify-between">
+        <div className="flex items-center space-x-4">
+          <button className="lg:hidden">
+            <Menu className="w-6 h-6 text-gray-600" />
+          </button>
+          <h1 className="text-xl font-semibold text-gray-800">Polloi</h1>
+        </div>
+
+        <div className="flex items-center space-x-4">
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <button className="flex items-center space-x-2">
+                <User className="w-6 h-6 text-gray-600" />
+                <span className="text-gray-800">{user.name}</span>
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
+              <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onSelect={handleSignOut}>
+                <LogOut className="w-4 h-4 mr-2" />
+                Sign out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </header>
   );
-}
+};
+
+export default Header;
