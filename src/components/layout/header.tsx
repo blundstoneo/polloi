@@ -7,23 +7,23 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '../../components/ui/dropdown-menu';
 
 const Header = () => {
-  // We'll need to handle user session state in your app's context
-  const user = {
-    name: "User Name",
-    email: "user@example.com",
-    image: null
-  };
-
   const handleSignOut = () => {
-    // Implement your sign out logic here
+    // We'll implement this later
     console.log('Sign out clicked');
   };
 
+  // Temporary user data - we'll replace this with real auth later
+  const user = {
+    name: "Demo User",
+    email: "demo@example.com",
+    image: null
+  };
+
   return (
-    <header className="w-full h-16 border-b border-gray-200 bg-white">
+    <header className="w-full h-16 border-b border-gray-200 bg-white fixed top-0 right-0 pl-64">
       <div className="h-full px-4 flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <button className="lg:hidden">
@@ -34,19 +34,29 @@ const Header = () => {
 
         <div className="flex items-center space-x-4">
           <DropdownMenu>
-            <DropdownMenuTrigger>
-              <button className="flex items-center space-x-2">
-                <User className="w-6 h-6 text-gray-600" />
-                <span className="text-gray-800">{user.name}</span>
-              </button>
+            <DropdownMenuTrigger className="flex items-center space-x-2">
+              <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+                <User className="w-4 h-4 text-gray-500" />
+              </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
-              <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuLabel>
+                <div className="flex flex-col">
+                  <span className="font-medium">{user.name}</span>
+                  <span className="text-sm text-gray-500">{user.email}</span>
+                </div>
+              </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onSelect={handleSignOut}>
-                <LogOut className="w-4 h-4 mr-2" />
-                Sign out
+              <DropdownMenuItem className="flex items-center space-x-2">
+                <Settings className="w-4 h-4" />
+                <span>Settings</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                className="flex items-center space-x-2 text-red-600"
+                onClick={handleSignOut}
+              >
+                <LogOut className="w-4 h-4" />
+                <span>Sign out</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
